@@ -133,7 +133,41 @@ if (!isset($_SESSION["uid"])) {
     </p>
   </aside>
   <div class="container">
-    <a href="watchlist.php"> Add to watchlist </a>
+    <form action="watchlist.php" method="post">
+      <input type="hidden" name="addEntry" value="true" />
+      <input type="hidden" name="movieId" value="<?php echo "$movieId" ?>" />
+      <label for="watchlists">Add to a Watchlist:</label>
+      <select name="watchlist">
+
+        <?php
+
+        $db = new mysqli("localhost", "hjz261", "Wh@t16", "hjz261");
+        // Check the connection 
+        if ($db->connect_error) {
+          die("Connection failed: " . $db->connect_error);
+        }
+
+        // Rendering all the watchlists
+        $q = "SELECT wid, name FROM Watchlists;";
+
+        $result = $db->query($q);
+        $count = $result->num_rows;
+
+        for ($i = 0; $i < $count; $i++) {
+
+          $row = $result->fetch_assoc();
+          $watchlistId = $row["wid"];
+          $name = $row["name"];
+
+        ?>
+          
+          <option value="<?php echo "$watchlistId" ?>"><?php echo $name ?></option>
+          
+        <?php }
+        $db->close(); ?>
+      </select>
+      <input type="submit" value="Add" >
+    </form>
   </div>
   <script type="text/javascript" src="headers.js"></script>
 </body>

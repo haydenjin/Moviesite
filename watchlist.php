@@ -39,6 +39,15 @@ if (!isset($_SESSION["uid"])) {
     $db->query($sql);
   }
 
+  // Check if user added a movie to a watchlist
+  if (isset($_POST["addEntry"]) && $_POST["addEntry"] == "true") {
+    $wId = $_POST["watchlist"];
+    $movieId = $_POST["movieId"];
+
+    $sql = "INSERT INTO Entries (wid, mid, dateAdded) VALUES ($wId, $movieId, now());";
+    $db->query($sql);
+  }
+
   $db->close();
 }
 ?>
@@ -88,7 +97,6 @@ if (!isset($_SESSION["uid"])) {
     <table style="width: 80%; margin-left: auto; margin-right: auto">
       <tr>
         <th>Watchlist Name</th>
-        <th>Movies</th>
         <th></th>
       </tr>
 
@@ -101,9 +109,7 @@ if (!isset($_SESSION["uid"])) {
       }
 
       // Rendering all the watchlists
-      $q = "SELECT Watchlists.wid, Watchlists.name, Entries.mid
-      FROM Watchlists LEFT JOIN Entries
-      ON Watchlists.wid = Entries.wid;";
+      $q = "SELECT wid, name FROM Watchlists;";
 
       $result = $db->query($q);
       $count = $result->num_rows;
@@ -113,18 +119,16 @@ if (!isset($_SESSION["uid"])) {
         $row = $result->fetch_assoc();
         $watchlistId = $row["wid"];
         $name = $row["name"];
-        //$count = $row["mid"];
+
       ?>
         <tr>
-          <form action="watchlist.php" method="post">
+          <form action="watchlistdetail.php" method="post">
             <input type="hidden" name="selectWatchlist" value="true" />
             <input type="hidden" name="watchlistId" value="<?php echo "$watchlistId" ?>" />
-            <td><a href="watchlistdetail.php"> <?php echo $name ?> </a></td>
-            <td><?php echo $count ?></td>
-            <td><a href="watchlist.php"> Delete </a></td>
+            <td><input type="submit" id="button1" value="<?php echo $name ?>"/></td>
+            <td><input type="submit" id="button1" value="Delete"/></td>
           </form>
         </tr>
-        
       <?php }
       $db->close(); ?>
     </table>
@@ -134,5 +138,4 @@ if (!isset($_SESSION["uid"])) {
   </div>
   <script type="text/javascript" src="headers.js"></script>
 </body>
-
 </html>
