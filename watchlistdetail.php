@@ -39,9 +39,6 @@ if (!isset($_SESSION["uid"])) {
     $entryId = $_POST["deleteMovie"];
     $watchlistId = $_POST["watchlist"];
 
-    print($entryId);
-    print($watchlistId);
-
     $sql = "DELETE FROM Entries WHERE wid = '$watchlistId' AND mid = '$entryId';";
     $db->query($sql);
   }
@@ -76,8 +73,12 @@ if (!isset($_SESSION["uid"])) {
             <input type="hidden" name="logout" value="true" />
             <input type="submit" id="button1" value="Logout" />
           </form>
-          <a href="index.php">Login </a>
-          <a href="signup.php">Signup </a>
+          <form action="index.php">
+            <input type="submit" id="button1" value="Login" />
+          </form>
+          <form action="index.php">
+            <input type="submit" id="button1" value="Signup" />
+          </form>
         </div>
       </div>
     </div>
@@ -120,7 +121,7 @@ if (!isset($_SESSION["uid"])) {
       <div class="grid-item">
         <img src="<?php echo "$poster.jpg" ?>" alt="" style="width: 180px; height: 280px" />
         <p><?php echo "$title" ?></p>
-        <p><?php echo "$rating" ?></p>
+        <p>Rating: <?php echo "$rating" ?></p>
         <form action="watchlistdetail.php" method="post">
           <input type="hidden" name="delete" value="true" />
           <input type="hidden" name="watchlist" value="<?php echo "$watchlistId" ?>" />

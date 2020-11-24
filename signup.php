@@ -131,11 +131,11 @@ if (isset($_POST["submitted"]) && $_POST["submitted"]) {
       <label id="msg_fname"> </label><br />
 
       <label for="pword">Password:</label><br />
-      <input type="text" id="pword" name="pword" /><br />
+      <input type="password" id="pword" name="pword" /><br />
       <label id="msg_pswd"> </label><br />
 
       <label for="cpword">Confirm Password:</label><br />
-      <input type="text" id="cpword" name="cpword" /><br />
+      <input type="password" id="cpword" name="cpword" /><br />
       <label id="msg_pswdr"> </label><br />
 
       <label for="dob">Date of birth (yyyymmdd):</label><br />

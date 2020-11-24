@@ -323,8 +323,12 @@ if (!isset($_SESSION["uid"])) {
             <input type="hidden" name="logout" value="true" />
             <input type="submit" id="button1" value="Logout" />
           </form>
-          <a href="index.php">Login </a>
-          <a href="signup.php">Signup </a>
+          <form action="index.php" >
+            <input type="submit" id="button1" value="Login" />
+          </form>
+          <form action="index.php" >
+            <input type="submit" id="button1" value="Signup" />
+          </form>
         </div>
       </div>
       <div class="search">
@@ -354,6 +358,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
+      WHERE uid = '$uid' OR uid IS NULL
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -362,6 +367,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
+      WHERE uid = '$uid' OR uid IS NULL
       ORDER BY Movies.title ASC LIMIT 15;";
 
       $result = $db->query($q);
@@ -370,6 +376,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
+      WHERE uid = '$uid' OR uid IS NULL
       ORDER BY Movies.year DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -377,7 +384,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
-      WHERE Movies.genre = '$setpage'
+      WHERE Movies.genre = '$setpage' AND (uid = '$uid' OR uid IS NULL)
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -385,7 +392,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
-      WHERE Movies.origin = '$setpage'
+      WHERE Movies.origin = '$setpage' AND (uid = '$uid' OR uid IS NULL)
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -394,7 +401,7 @@ if (!isset($_SESSION["uid"])) {
       $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
       FROM Movies LEFT JOIN Ratings
       ON Movies.mid = Ratings.mid
-      WHERE Movies.title LIKE '%$setpage%'
+      WHERE Movies.title LIKE '%$setpage%' AND (uid = '$uid' OR uid IS NULL)
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -418,7 +425,6 @@ if (!isset($_SESSION["uid"])) {
           <input type="submit" id="button2" value="<?php echo "$title" ?>" />
           <p>Rating: <?php echo "$rating" ?></p>
         </form>
-        <a href="watchlist.php"> Add to watchlist </a>
       </div>
     <?php
     }

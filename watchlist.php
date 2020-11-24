@@ -48,6 +48,14 @@ if (!isset($_SESSION["uid"])) {
     $db->query($sql);
   }
 
+  // Check if user wants to delete a watchlist
+  if (isset($_POST["deleteWatchlist"]) && $_POST["deleteWatchlist"] == "true") {
+    $wId = $_POST["watchlistId"];
+
+    $sql = "DELETE FROM Watchlists WHERE wid = '$wId';";
+    $db->query($sql);
+  }
+
   $db->close();
 }
 ?>
@@ -77,8 +85,12 @@ if (!isset($_SESSION["uid"])) {
             <input type="hidden" name="logout" value="true" />
             <input type="submit" id="button1" value="Logout" />
           </form>
-          <a href="index.php">Login </a>
-          <a href="signup.php">Signup </a>
+          <form action="index.php">
+            <input type="submit" id="button1" value="Login" />
+          </form>
+          <form action="index.php">
+            <input type="submit" id="button1" value="Signup" />
+          </form>
         </div>
       </div>
     </div>
@@ -109,7 +121,7 @@ if (!isset($_SESSION["uid"])) {
       }
 
       // Rendering all the watchlists
-      $q = "SELECT wid, name FROM Watchlists;";
+      $q = "SELECT wid, name FROM Watchlists WHERE uid = '$uid';";
 
       $result = $db->query($q);
       $count = $result->num_rows;
@@ -125,8 +137,12 @@ if (!isset($_SESSION["uid"])) {
           <form action="watchlistdetail.php" method="post">
             <input type="hidden" name="selectWatchlist" value="true" />
             <input type="hidden" name="watchlistId" value="<?php echo "$watchlistId" ?>" />
-            <td><input type="submit" id="button1" value="<?php echo $name ?>"/></td>
-            <td><input type="submit" id="button1" value="Delete"/></td>
+            <td><input type="submit" value="<?php echo $name ?>" /></td>
+          </form>
+          <form action="watchlist.php" method="post">
+            <input type="hidden" name="deleteWatchlist" value="true" />
+            <input type="hidden" name="watchlistId" value="<?php echo "$watchlistId" ?>" />
+            <td><input type="submit" value="Delete" /></td>
           </form>
         </tr>
       <?php }
@@ -138,4 +154,5 @@ if (!isset($_SESSION["uid"])) {
   </div>
   <script type="text/javascript" src="headers.js"></script>
 </body>
+
 </html>

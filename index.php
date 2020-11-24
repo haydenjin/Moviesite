@@ -73,7 +73,7 @@ if (isset($_POST["submittedlogin"]) && $_POST["submittedlogin"]) {
       <label id="msg_email1"> </label><br />
 
       <label for="pword1">Password:</label><br />
-      <input type="text" id="pword1" name="pword1" /><br />
+      <input type="password" id="pword1" name="pword1" /><br />
       <label id="msg_pswd1"> </label><br />
 
       <input type="submit" id="submit" name="submit" value="Login" />

@@ -101,8 +101,12 @@ if (!isset($_SESSION["uid"])) {
             <input type="hidden" name="logout" value="true" />
             <input type="submit" id="button1" value="Logout" />
           </form>
-          <a href="index.php">Login </a>
-          <a href="signup.php">Signup </a>
+          <form action="index.php" >
+            <input type="submit" id="button1" value="Login" />
+          </form>
+          <form action="index.php" >
+            <input type="submit" id="button1" value="Signup" />
+          </form>
         </div>
       </div>
     </div>
@@ -148,7 +152,7 @@ if (!isset($_SESSION["uid"])) {
         }
 
         // Rendering all the watchlists
-        $q = "SELECT wid, name FROM Watchlists;";
+        $q = "SELECT wid, name FROM Watchlists WHERE uid = '$uid';";
 
         $result = $db->query($q);
         $count = $result->num_rows;

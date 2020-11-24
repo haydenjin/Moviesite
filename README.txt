@@ -2,8 +2,15 @@ Hayden Jin
 200406675
 Cs 215 
 
+Loggin test profiles:
+haydenjin@gmail.com
+Hello144
+
+bob@gmail.com
+bobby12!
+
 Link for site:
-http://www2.cs.uregina.ca/~hjz261/Assignment3/index.php
+http://www2.cs.uregina.ca/~hjz261/Assignment5/index.php
 
 index.php:
 The signin page, lets users signin
@@ -12,7 +19,7 @@ signup.php:
 The signup page, lets users sign up for an account
 
 home.php:
-The home page where most features are 
+The home page where movies are listed and users can sort for movies 
 
 Details.php:
 Provides details about one particular movie
