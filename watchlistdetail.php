@@ -95,7 +95,6 @@ if (!isset($_SESSION["uid"])) {
       die("Connection failed: " . $db->connect_error);
     }
 
-    // Sorts the page by rating
 
     $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
     FROM Movies 

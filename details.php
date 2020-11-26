@@ -35,7 +35,7 @@ if (!isset($_SESSION["uid"])) {
   $image = $row["avatar"];
 
   // Try to find the movie
-  $q = "SELECT * FROM Movies LEFT JOIN Ratings ON Movies.mid = Ratings.mid WHERE Movies.mid = '$movieId';";
+  $q = "SELECT *, ROUND(AVG(Ratings.rating),2) AS AverageRating FROM Movies LEFT JOIN Ratings ON Movies.mid = Ratings.mid WHERE Movies.mid = '$movieId';";
 
   $result = $db->query($q);
   $row = $result->fetch_assoc();
@@ -43,7 +43,7 @@ if (!isset($_SESSION["uid"])) {
   $title = $row["title"];
   $year = $row["year"];
   $poster = $row["poster"];
-  $rating = $row["rating"];
+  $rating = $row["AverageRating"];
   $origin = $row["origin"];
   $genre = $row["genre"];
   $director = $row["director"];
@@ -59,13 +59,8 @@ if (!isset($_SESSION["uid"])) {
     $currrating = $_POST["currentrating"];
     $movieId = $_POST["movieId"];
 
-    if ($rating == "") {
-      $sql = "INSERT INTO Ratings (uid, mid, rating, dateRated) VALUES ($uid, $movieId, $currrating, now());";
-      $db->query($sql);
-    } else {
-      $sql = "UPDATE Ratings SET rating = $currrating WHERE mid = $movieId;";
-      $db->query($sql);
-    }
+    $sql = "INSERT INTO Ratings (uid, mid, rating, dateRated) VALUES ($uid, $movieId, $currrating, now());";
+    $db->query($sql);
 
     header("Location: home.php");
     exit();
@@ -101,10 +96,10 @@ if (!isset($_SESSION["uid"])) {
             <input type="hidden" name="logout" value="true" />
             <input type="submit" id="button1" value="Logout" />
           </form>
-          <form action="index.php" >
+          <form action="index.php">
             <input type="submit" id="button1" value="Login" />
           </form>
-          <form action="index.php" >
+          <form action="index.php">
             <input type="submit" id="button1" value="Signup" />
           </form>
         </div>
@@ -164,13 +159,13 @@ if (!isset($_SESSION["uid"])) {
           $name = $row["name"];
 
         ?>
-          
+
           <option value="<?php echo "$watchlistId" ?>"><?php echo $name ?></option>
-          
+
         <?php }
         $db->close(); ?>
       </select>
-      <input type="submit" value="Add" >
+      <input type="submit" value="Add">
     </form>
   </div>
   <script type="text/javascript" src="headers.js"></script>

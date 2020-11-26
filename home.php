@@ -355,53 +355,49 @@ if (!isset($_SESSION["uid"])) {
 
     // Sorts the page by rating
     if ($setpage == "default") {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
-      FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE uid = '$uid' OR uid IS NULL
-      ORDER BY Ratings.rating DESC LIMIT 15;";
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating  
+      FROM Movies LEFT JOIN Ratings ON Movies.mid = Ratings.mid GROUP BY mid
+      ORDER BY ROUND(AVG(Ratings.rating),2) DESC LIMIT 15;";
 
       $result = $db->query($q);
     } // Sorts the page by title
     else if ($setpage == "Title") {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating  
       FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE uid = '$uid' OR uid IS NULL
+      ON Movies.mid = Ratings.mid GROUP BY mid
       ORDER BY Movies.title ASC LIMIT 15;";
 
       $result = $db->query($q);
     } // Sorts the page by year
     else if ($setpage == "Year released") {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating 
       FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE uid = '$uid' OR uid IS NULL
+      ON Movies.mid = Ratings.mid GROUP BY mid
       ORDER BY Movies.year DESC LIMIT 15;";
 
       $result = $db->query($q);
     } else if ($type == "genre") {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating  
       FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE Movies.genre = '$setpage' AND (uid = '$uid' OR uid IS NULL)
+      ON Movies.mid = Ratings.mid 
+      WHERE Movies.genre = '$setpage' GROUP BY mid
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
     } else if ($type == "origin") {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating  
       FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE Movies.origin = '$setpage' AND (uid = '$uid' OR uid IS NULL)
+      ON Movies.mid = Ratings.mid 
+      WHERE Movies.origin = '$setpage' GROUP BY mid
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
     } // User used search bar
     else {
-      $q = "SELECT Movies.title, Movies.mid, Movies.poster, Ratings.rating 
+      $q = "SELECT Movies.title, Movies.mid, Movies.poster, ROUND(AVG(Ratings.rating),2) AS AverageRating  
       FROM Movies LEFT JOIN Ratings
-      ON Movies.mid = Ratings.mid
-      WHERE Movies.title LIKE '%$setpage%' AND (uid = '$uid' OR uid IS NULL)
+      ON Movies.mid = Ratings.mid 
+      WHERE Movies.title LIKE '%$setpage%' GROUP BY mid
       ORDER BY Ratings.rating DESC LIMIT 15;";
 
       $result = $db->query($q);
@@ -415,7 +411,7 @@ if (!isset($_SESSION["uid"])) {
       $movieId = $row["mid"];
       $title = $row["title"];
       $poster = $row["poster"];
-      $rating = $row["rating"];
+      $rating = $row["AverageRating"];
 
     ?>
       <div class="grid-item">
